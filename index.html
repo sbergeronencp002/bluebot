@@ -304,6 +304,15 @@ header{padding:13px clamp(10px,1.3vw,22px)}
  .sequence-col .placement-tools .mode{min-height:67px;font-size:10px;padding:7px 1px}
  .sequence-col .placement-tools .mode .micon{font-size:20px}
 }
+
+/* Au bureau, dimensionner le tapis selon la hauteur visible, pas seulement la largeur.
+   Le facteur de forme suit toujours le nombre de colonnes et de rangées. */
+@media (min-width:781px) {
+  .boardframe {
+    width: min(100%, calc((100dvh - 220px) * var(--board-ratio, 1) + 12px));
+    margin-inline: auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -643,7 +652,7 @@ async function animateFeedback(type,r,c,myToken){
   rafId=requestAnimationFrame(frame);
  });
 }
-function updateBoardRatio(){el.board.style.aspectRatio=s.cols+'/'+s.rows;resizeCanvas()}
+function updateBoardRatio(){el.board.style.aspectRatio=s.cols+'/'+s.rows;el.board.parentElement.style.setProperty('--board-ratio',String(s.cols/s.rows));resizeCanvas()}
 function resetRobot(){if(running){toast('Arrête la simulation avant de replacer le robot.');return}resetExecutionState(true);status('Prêt');msg('Robot replacé au départ. Tu peux relancer le parcours.')}
 function changeGrid(){if(running)return;s.rows=clamp(el.rows.value,2,15);s.cols=clamp(el.cols.value,2,15);s.start.r=clamp(s.start.r,0,s.rows-1);s.start.c=clamp(s.start.c,0,s.cols-1);if(s.goal&&!valid(s.goal.r,s.goal.c))s.goal=null;s.obstacles=new Set([...s.obstacles].filter(k=>{let [r,c]=k.split(',').map(Number);return valid(r,c)&&key(s.start.r,s.start.c)!==k}));resetExecutionState(true);renderUI();updateBoardRatio();status('Prêt')}
 function editAt(r,c){if(running)return;let k=key(r,c);if(s.mode==='start'&&s.goal&&s.goal.r===r&&s.goal.c===c){toast('Le départ et la fin doivent être dans des cases différentes.');return}if(s.mode==='goal'&&s.start.r===r&&s.start.c===c){toast('La fin doit être différente du départ.');return}if(s.mode==='start'){s.start={r,c,d:s.start.d};s.obstacles.delete(k);resetExecutionState(true);msg(`Nouveau départ : colonne ${c+1}, rangée ${r+1}.`);status('Prêt')}else if(s.mode==='goal'){if(s.obstacles.has(k))s.obstacles.delete(k);s.goal={r,c};resetExecutionState(true);msg(`Fin placée en colonne ${c+1}, rangée ${r+1}.`);status('Prêt')}else{if(r===s.start.r&&c===s.start.c){toast('Le départ ne peut pas être un obstacle.');return}if(s.goal&&r===s.goal.r&&c===s.goal.c){toast('La fin ne peut pas être un obstacle.');return}if(s.obstacles.has(k))s.obstacles.delete(k);else s.obstacles.add(k);resetExecutionState(true);status('Prêt');msg('Obstacle '+(s.obstacles.has(k)?'ajouté.':'retiré.')+' Clique sur une autre case pour continuer.')}updateRouteLegend();draw()}
