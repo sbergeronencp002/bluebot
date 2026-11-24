@@ -22,7 +22,6 @@
 .sound-toggle:hover{background:#d8eefb}.sound-toggle[aria-pressed="false"]{background:#f3f5f7;border-color:#d7e0e6;color:#637989}
 .sound-note{display:block;margin-top:5px;font-size:11px;color:#607b90;text-align:center}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
-
 [hidden]{display:none!important}
 /* Tableaux pédagogiques avec réglages directement sous le choix de tapis. */
 .tile-settings{background:#f4f9fd;border:1px solid #d6e9f5;border-radius:12px;padding:12px 12px 11px;margin:-3px 0 16px}
@@ -93,7 +92,6 @@ main{max-width:1680px}
 .route-tag{display:inline-flex;align-items:center;gap:4px;border-radius:100px;padding:5px 11px;font-size:12px;font-weight:800;white-space:nowrap;border:1px solid transparent}
 .route-tag.start{background:#e7f8ee;border-color:#b5e6c9;color:#176b47}
 .route-tag.finish{background:#fff3d8;border-color:#ead196;color:#845715}
-
 /* Panneau de préparation : choix visuels directs et mise en page allégée. */
 .left-col{box-shadow:0 8px 32px rgba(22,55,83,.055)}
 .left-col .panel-heading{border-bottom:1px solid #edf2f6;padding:17px 19px}
@@ -142,7 +140,6 @@ main{max-width:1680px}
 .advanced-options[open] summary span{transform:rotate(180deg)}
 .advanced-options .field{margin:4px 12px 12px}.advanced-options .field select{font-size:12px}
 .advanced-options .stack{margin:4px 10px 11px}
-.advanced-options.save-options{margin:20px 0 0}
 .left-col .mode-grid{gap:6px}
 .left-col .mode{padding:10px 2px 8px;border-radius:10px;font-size:11px}
 .left-col .mode .micon{font-size:21px;margin-bottom:2px}
@@ -151,7 +148,6 @@ main{max-width:1680px}
 .left-col #clearGoals,.left-col #demoBtn{font-size:12px;padding:10px 7px}
 @media (max-width:850px){.left-col .panel-body{padding:18px}.preset-picker{grid-template-columns:repeat(3,1fr)}.preset-card{min-height:80px}}
 @media (max-width:430px){.preset-picker{grid-template-columns:repeat(2,1fr)}}
-
 /* ===== Disposition 2026 : séquence | parcours et préparation | commandes ===== */
 main{max-width:none;width:100%;padding:12px clamp(8px,1vw,16px) 30px}
 .workspace{display:grid;grid-template-columns:minmax(260px,1fr) minmax(415px,2.25fr) minmax(290px,1.06fr);align-items:start;gap:10px}
@@ -218,7 +214,7 @@ main{max-width:none;width:100%;padding:12px clamp(8px,1vw,16px) 30px}
 .setup-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
 .setup-actions .btn{flex:1;min-width:125px;font-size:11px;padding:8px 5px}
 .setup-extras{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid #e9f0f5}
-.setup-extras .advanced-options,.setup-extras .advanced-options.save-options{margin:0;align-self:start}
+.setup-extras .advanced-options{margin:0;align-self:start}
 .mat-panel .tile-settings{padding:0;margin:0 0 8px}
 .mat-panel .tile-settings .number-fields{margin:5px 0 6px}
 .mat-panel .shuffle-row{margin:5px 0}
@@ -256,7 +252,6 @@ main{max-width:none;width:100%;padding:12px clamp(8px,1vw,16px) 30px}
  .mat-panel .preset-picker{grid-template-columns:repeat(3,minmax(0,1fr))}
  .mat-panel .preset-card{min-height:66px}
 }
-
 /* Pleine largeur : la surface principale n’est plus confinée à un îlot de 620 px.
    Les espaces gris entre les panneaux sont réduits à une vraie gouttière de 10 px. */
 header{padding:13px clamp(10px,1.3vw,22px)}
@@ -292,7 +287,6 @@ header{padding:13px clamp(10px,1.3vw,22px)}
 .controller .quick-clear .command-glyph{font-size:37px;line-height:.9}
 .controller .quick-clear .command-label{color:#f5faff}
 .controller .quick-clear:disabled{opacity:.48}
-
 /* Les trois outils fondamentaux restent visibles au-dessus des tuiles. */
 .sequence-col .placement-tools{padding:12px 11px 13px;border:1px solid #d5e7f1;border-radius:12px;background:#f7fbfe;margin:0 0 15px}
 .sequence-col .placement-head{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
@@ -390,7 +384,6 @@ header{padding:13px clamp(10px,1.3vw,22px)}
           </div>
         </div>
         <div class="setup-extras"><details class="advanced-options"><summary>Options d’affichage <span aria-hidden="true">⌄</span></summary><div class="field"><div class="settingline"><label class="subhead" for="gridOpacity">Visibilité du quadrillage</label><span id="gridOpacityValue">55 %</span></div><input type="range" id="gridOpacity" min="0" max="100" value="55" step="5"></div></details>
-          <details class="advanced-options save-options"><summary>Enregistrer et partager <span aria-hidden="true">⌄</span></summary><div class="stack"><button id="exportProject" class="btn block" type="button">💾 Enregistrer le projet (.json)</button><button id="exportPng" class="btn block" type="button">🖼️ Exporter le tapis en image</button></div></details>
         </div>
       </div>
     </section>
@@ -661,9 +654,6 @@ let sign=cmd==='F'?1:-1;let [dr,dc]=delta[s.robot.d];let nr=s.robot.r+dr*sign,nc
 function finish(){s.activeIndex=-1;running=false;paused=false;renderQueue();renderButtons();updatePosition();draw();if(s.goal){if(s.robot.r===s.goal.r&&s.robot.c===s.goal.c){status('Réussi');msg(`Bravo ! Le Blue-Bot a atteint la fin en ${s.runIndex} instruction${s.runIndex>1?'s':''}.`,'success')}else{status('Terminé');msg(`Séquence terminée. Le robot est en colonne ${s.robot.c+1}, rangée ${s.robot.r+1} ; la fin n'est pas encore atteinte.`)}}else{status('Terminé');msg(`${s.runIndex} instruction${s.runIndex>1?'s':''} exécutée${s.runIndex>1?'s':''}. Parcours terminé !`,'success')}}
 async function execute(count,fromStart){if(running||!s.program.length)return;if(fromStart||s.runIndex>=s.program.length){goalCelebrated=false;feedback=null;s.robot={...s.start};s.trail=[{r:s.start.r,c:s.start.c}];syncVisual();s.runIndex=0;s.errorIndex=-1;s.activeIndex=-1;draw()}let myToken=++token;ensureAudio();running=true;paused=false;renderButtons();status('En mouvement','running');msg(count===1?'Exécution d’une commande…':'Le Blue-Bot suit ta programmation…');let completed=0;while(myToken===token&&s.runIndex<s.program.length&&completed<count){s.activeIndex=s.runIndex;s.errorIndex=-1;renderQueue();let result=await execCommand(s.program[s.runIndex],myToken);if(myToken!==token)return;if(result.error){s.errorIndex=s.runIndex;s.activeIndex=-1;running=false;paused=false;status('Erreur','error');msg(result.error,'error');renderButtons();renderQueue();updatePosition();draw();return}if(!result.ok)break;s.runIndex++;completed++;updatePosition();renderQueue();if(s.goal&&!goalCelebrated&&s.robot.r===s.goal.r&&s.robot.c===s.goal.c){goalCelebrated=true;msg('🎉 Bravo ! Le Blue-Bot a atteint le but !','success');status('But atteint');await animateFeedback('success',s.robot.r,s.robot.c,myToken);if(myToken!==token)return}}if(myToken!==token)return;running=false;paused=false;if(s.runIndex>=s.program.length)finish();else{s.activeIndex=-1;const onGoal=s.goal&&s.robot.r===s.goal.r&&s.robot.c===s.goal.c;status(onGoal?'But atteint':'Pas à pas');msg(onGoal?'🎉 Bravo ! Le Blue-Bot a atteint le but ! Tu peux poursuivre la séquence.':`Commande ${s.runIndex}/${s.program.length} exécutée. Clique encore sur « Pas à pas » pour continuer.`,onGoal?'success':'info');renderQueue();renderButtons();draw()}}
 function stop(){if(!running)return;token++;cancelAnimationFrame(rafId);feedback=null;running=false;paused=false;s.activeIndex=-1;syncVisual();status('Arrêté');msg('Simulation arrêtée. Le robot reste à sa dernière case validée.');renderQueue();renderButtons();draw()}
-function download(filename,blob){let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-function safeName(){return (s.projectName||'blue-bot').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'-').replace(/^-|-$/g,'').slice(0,60)||'blue-bot'}
-function exportProject(){if(running)return;let payload={type:'blue-bot-classroom-project',version:1,projectName:s.projectName,rows:s.rows,cols:s.cols,mat:s.mat,numStart:s.numStart,numEnd:s.numEnd,shuffle:s.shuffle,tileSeed:s.tileSeed,gridOpacity:s.gridOpacity,start:{...s.start},goal:s.goal?{...s.goal}:null,obstacles:[...s.obstacles],program:[...s.program],trace:s.trace,speed:s.speed,soundEnabled};download(safeName()+'.json',new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));toast('Projet téléchargé : paramètres du tapis et commandes.')}
 function example(){if(running)return;s.rows=6;s.cols=6;s.mat='numbers';s.start={r:5,c:0,d:0};s.goal={r:2,c:3};s.obstacles=new Set(['4,1','3,1','3,3','1,1']);s.program=['F','F','F','R','F','F','F'];s.projectName='Défi : atteindre le drapeau';resetExecutionState(true);renderUI();updateBoardRatio();status('Prêt');msg('Défi chargé. Le parcours contourne les obstacles : appuie sur GO pour vérifier.','success')}
 function events(){$('soundToggle').addEventListener('click',()=>setSound(!soundEnabled));document.querySelectorAll('[data-command]').forEach(b=>b.addEventListener('click',()=>addCommand(b.dataset.command)));document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{s.mode=b.dataset.mode;setModes();msg(s.mode==='start'?'Clique sur une case pour placer le départ.':s.mode==='goal'?'Clique sur une case pour placer la fin.':'Clique sur une case pour ajouter ou retirer un obstacle.')}));el.board.addEventListener('click',e=>{let rect=el.board.getBoundingClientRect();let c=clamp(Math.floor((e.clientX-rect.left)/rect.width*s.cols),0,s.cols-1),r=clamp(Math.floor((e.clientY-rect.top)/rect.height*s.rows),0,s.rows-1);editAt(r,c)});el.matPreset.addEventListener('change',()=>{if(running)return;s.mat=el.matPreset.value;updateTileUI();draw()});
  document.querySelectorAll('[data-preset]').forEach(button=>button.addEventListener('click',()=>{
@@ -673,7 +663,7 @@ function events(){$('soundToggle').addEventListener('click',()=>setSound(!soundE
  el.shuffleTiles.addEventListener('change',()=>{if(running)return;s.shuffle=el.shuffleTiles.checked;updateTileUI();draw()});
  el.reshuffleTiles.addEventListener('click',()=>{if(running)return;s.tileSeed=(s.tileSeed+Math.floor(Math.random()*100000)+1)>>>0;draw();msg('Nouveau mélange ! Les lettres et les nombres ont changé de place.');});
  function handleNumberRange(){if(running)return;s.numStart=clamp(el.numStart.value,1,100);s.numEnd=clamp(el.numEnd.value,s.numStart,100);updateTileUI();draw()}
- el.numStart.addEventListener('change',handleNumberRange);el.numEnd.addEventListener('change',handleNumberRange);el.gridOpacity.addEventListener('input',()=>{s.gridOpacity=Number(el.gridOpacity.value);el.gridOpacityValue.textContent=s.gridOpacity+' %';draw()});el.rows.addEventListener('change',changeGrid);el.cols.addEventListener('change',changeGrid);el.startDirection.addEventListener('change',()=>{if(running)return;s.start.d=Number(el.startDirection.value);resetExecutionState(true);msg('Orientation du départ modifiée.')});el.projectName.addEventListener('input',()=>{s.projectName=el.projectName.value;el.boardTitle.textContent=s.projectName||'Mon parcours Blue-Bot'});el.speed.addEventListener('input',()=>{s.speed=Number(el.speed.value);el.speedLabel.textContent=speedNames[s.speed-1]});$('toggleTrace').addEventListener('click',()=>{s.trace=!s.trace;$('toggleTrace').textContent='👣 Tracé : '+(s.trace?'oui':'non');$('toggleTrace').setAttribute('aria-pressed',s.trace?'true':'false');draw()});$('resetPosition').addEventListener('click',resetRobot);$('clearGoals').addEventListener('click',()=>{if(running)return;s.goal=null;s.obstacles.clear();resetExecutionState(true);updateRouteLegend();msg('Fin et obstacles effacés. Le départ et le code sont conservés.')});$('demoBtn').addEventListener('click',example);el.run.addEventListener('click',()=>execute(Infinity,true));el.step.addEventListener('click',()=>execute(1,false));el.pauseRun.addEventListener('click',()=>{if(!running)return;paused=!paused;el.pauseRun.textContent=paused?'▶ Reprendre':'⏸ Pause';status(paused?'En pause':'En mouvement',paused?'ready':'running')});el.stop.addEventListener('click',stop);el.undo.addEventListener('click',()=>{if(running||!s.program.length)return;s.program.pop();resetExecutionState(true)});el.clear.addEventListener('click',clearCode);el.clearQuick.addEventListener('click',clearCode);$('exportProject').addEventListener('click',exportProject);$('exportPng').addEventListener('click',()=>{const png=el.canvas.toDataURL('image/png');let a=document.createElement('a');a.href=png;a.download=safeName()+'-tapis.png';a.click();toast('Image du tapis enregistrée.')} );document.addEventListener('keydown',e=>{let target=e.target;if(target&&(['INPUT','TEXTAREA','SELECT'].includes(target.tagName)||target.isContentEditable))return;if(e.ctrlKey||e.metaKey||e.altKey)return;let cmd={ArrowUp:'F',ArrowDown:'B',ArrowLeft:'L',ArrowRight:'R'}[e.key];if(cmd){e.preventDefault();addCommand(cmd)}else if(e.key==='Backspace'){e.preventDefault();if(!running&&s.program.length){s.program.pop();resetExecutionState(true)}}else if(e.key==='Enter'){e.preventDefault();execute(Infinity,true)}else if(e.key==='Escape'){stop()}});if(window.ResizeObserver){let observer=new ResizeObserver(()=>resizeCanvas());observer.observe(el.board)}else window.addEventListener('resize',resizeCanvas)}
+ el.numStart.addEventListener('change',handleNumberRange);el.numEnd.addEventListener('change',handleNumberRange);el.gridOpacity.addEventListener('input',()=>{s.gridOpacity=Number(el.gridOpacity.value);el.gridOpacityValue.textContent=s.gridOpacity+' %';draw()});el.rows.addEventListener('change',changeGrid);el.cols.addEventListener('change',changeGrid);el.startDirection.addEventListener('change',()=>{if(running)return;s.start.d=Number(el.startDirection.value);resetExecutionState(true);msg('Orientation du départ modifiée.')});el.projectName.addEventListener('input',()=>{s.projectName=el.projectName.value;el.boardTitle.textContent=s.projectName||'Mon parcours Blue-Bot'});el.speed.addEventListener('input',()=>{s.speed=Number(el.speed.value);el.speedLabel.textContent=speedNames[s.speed-1]});$('toggleTrace').addEventListener('click',()=>{s.trace=!s.trace;$('toggleTrace').textContent='👣 Tracé : '+(s.trace?'oui':'non');$('toggleTrace').setAttribute('aria-pressed',s.trace?'true':'false');draw()});$('resetPosition').addEventListener('click',resetRobot);$('clearGoals').addEventListener('click',()=>{if(running)return;s.goal=null;s.obstacles.clear();resetExecutionState(true);updateRouteLegend();msg('Fin et obstacles effacés. Le départ et le code sont conservés.')});$('demoBtn').addEventListener('click',example);el.run.addEventListener('click',()=>execute(Infinity,true));el.step.addEventListener('click',()=>execute(1,false));el.pauseRun.addEventListener('click',()=>{if(!running)return;paused=!paused;el.pauseRun.textContent=paused?'▶ Reprendre':'⏸ Pause';status(paused?'En pause':'En mouvement',paused?'ready':'running')});el.stop.addEventListener('click',stop);el.undo.addEventListener('click',()=>{if(running||!s.program.length)return;s.program.pop();resetExecutionState(true)});el.clear.addEventListener('click',clearCode);el.clearQuick.addEventListener('click',clearCode);document.addEventListener('keydown',e=>{let target=e.target;if(target&&(['INPUT','TEXTAREA','SELECT'].includes(target.tagName)||target.isContentEditable))return;if(e.ctrlKey||e.metaKey||e.altKey)return;let cmd={ArrowUp:'F',ArrowDown:'B',ArrowLeft:'L',ArrowRight:'R'}[e.key];if(cmd){e.preventDefault();addCommand(cmd)}else if(e.key==='Backspace'){e.preventDefault();if(!running&&s.program.length){s.program.pop();resetExecutionState(true)}}else if(e.key==='Enter'){e.preventDefault();execute(Infinity,true)}else if(e.key==='Escape'){stop()}});if(window.ResizeObserver){let observer=new ResizeObserver(()=>resizeCanvas());observer.observe(el.board)}else window.addEventListener('resize',resizeCanvas)}
 updateBoardRatio();events();renderUI();msg('Tapis coloré 5 × 5 prêt ! Ajoute tes flèches à droite et retrouve ta séquence à gauche.');
 })();
 </script>
